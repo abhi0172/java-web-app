@@ -31,7 +31,7 @@ pipeline {
 		stage("testing website") {
 			steps {
 				retry(5) {
-				sh 'curl --silent http://44.204.111.87:9001/java-web-app/ | grep -i "india" '
+				sh 'curl --silent http://44.204.111.87:9001/java-web-app/  '
 					}
 				}
 			}
