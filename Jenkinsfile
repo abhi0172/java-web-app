@@ -32,7 +32,7 @@ pipeline {
 		stage('Push') {
 
 			steps {
-				sh 'docker push abhishek0322/pipeline-java:$BUILD_TAG'
+				sh 'sudo docker push abhishek0322/pipeline-java:$BUILD_TAG'
 			}
 		}
 		stage("QAT Testing") {
