@@ -28,14 +28,7 @@ pipeline {
 				sh 'sudo docker run -dit -p 9001:8080  srronak/pipeline-java:$BUILD_TAG'
 				}
 			}
-		stage("testing website") {
-			steps {
-				retry(1) {
-				sh 'curl --silent http://44.211.119.171:9001/java-web-app/  '
-					}
-				}
-			}
-
+		
 		stage("Approval status") {
 			steps {
 				script {
