@@ -1,5 +1,8 @@
 pipeline {
 	agent any
+	environment {
+		DOCKERHUB_CREDENTIALS=credentials('docker')
+	}
 	stages {
 		stage("SCM") {
 			steps {
@@ -20,15 +23,17 @@ pipeline {
 				}
 			}
 				
-	
-		stage("Docker Hub") {
-			steps {
-			withCredentials([string(credentialsId: 'docker', variable: 'docker_var')]) {
-				sh 'sudo docker login -u abhishek0322 -p ${docker_var}'
-				sh 'sudo docker push abhishek0322/pipeline-java:$BUILD_TAG'
-				}
-			}	
+		stage('Login') {
 
+			steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		}
+		stage('Push') {
+
+			steps {
+				sh 'docker push abhishek0322/pipeline-java:$BUILD_TAG'
+			}
 		}
 		stage("QAT Testing") {
 			steps {
