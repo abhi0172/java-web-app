@@ -30,8 +30,8 @@ pipeline {
 			}
 		stage("testing website") {
 			steps {
-				retry(5) {
-				sh 'curl --silent http://44.204.111.87:9001/java-web-app/  '
+				retry(1) {
+				sh 'curl --silent http://44.211.119.171:9001/java-web-app/  '
 					}
 				}
 			}
@@ -47,8 +47,8 @@ pipeline {
 		stage("Prod Env") {
 			steps {
 			 sshagent(['ubuntu']) {
-			    sh 'ssh -o StrictHostKeyChecking=no ubuntu@44.204.111.87 sudo docker rm -f $(sudo docker ps -a -q)' 
-	                    sh "ssh -o StrictHostKeyChecking=no ubuntu@44.204.111.87 sudo docker run  -d  -p  49153:8080  srronak/javatest-app:$BUILD_TAG"
+			    sh 'ssh -o StrictHostKeyChecking=no ec2-user@44.211.119.171 sudo docker rm -f $(sudo docker ps -a -q)' 
+	                    sh "ssh -o StrictHostKeyChecking=no ec2-user@44.211.119.171 sudo docker run  -d  -p  49153:8080  srronak/javatest-app:$BUILD_TAG"
 				}
 			}
 		}
