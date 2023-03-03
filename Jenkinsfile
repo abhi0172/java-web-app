@@ -16,7 +16,7 @@ pipeline {
 		stage("Image") {
 			steps {
 				sh 'sudo docker build -t java-repo:$BUILD_TAG .'
-				sh 'sudo docker tag java-repo:$BUILD_TAG srronak/pipeline-java:$BUILD_TAG'
+				sh 'sudo docker tag java-repo:$BUILD_TAG abhishek0322/pipeline-java:$BUILD_TAG'
 				}
 			}
 				
@@ -25,7 +25,7 @@ pipeline {
 			steps {
 			withCredentials([string(credentialsId: 'docker', variable: 'docker_var')]) {
 				sh 'sudo docker login -u abhishek0322 -p ${docker_var}'
-				sh 'sudo docker push srronak/pipeline-java:$BUILD_TAG'
+				sh 'sudo docker push abhishek0322/pipeline-java:$BUILD_TAG'
 				}
 			}	
 
@@ -33,7 +33,7 @@ pipeline {
 		stage("QAT Testing") {
 			steps {
 				sh 'sudo docker rm -f $(sudo docker ps -a -q)'
-				sh 'sudo docker run -dit -p 9001:8080  srronak/pipeline-java:$BUILD_TAG'
+				sh 'sudo docker run -dit -p 9001:8080  abhishek0322/pipeline-java:$BUILD_TAG'
 				}
 			}
 		
@@ -49,7 +49,7 @@ pipeline {
 			steps {
 			 sshagent(['ec2user']) {
 			    sh 'ssh -o StrictHostKeyChecking=no ec2-user@3.90.81.92 sudo docker rm -f $(sudo docker ps -a -q)' 
-	                    sh "ssh -o StrictHostKeyChecking=no ec2-user@3.90.81.92 sudo docker run  -d  -p  49153:8080  srronak/pipeline-java:$BUILD_TAG"
+	                    sh "ssh -o StrictHostKeyChecking=no ec2-user@3.90.81.92 sudo docker run  -d  -p  49153:8080  abhishek0322/pipeline-java:$BUILD_TAG"
 				}
 			}
 		}
