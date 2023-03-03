@@ -39,7 +39,7 @@ pipeline {
 		}
 		stage("Prod Env") {
 			steps {
-			 sshagent(['ubuntu']) {
+			 sshagent(['ec2user']) {
 			    sh 'ssh -o StrictHostKeyChecking=no ec2-user@44.211.119.171 sudo docker rm -f $(sudo docker ps -a -q)' 
 	                    sh "ssh -o StrictHostKeyChecking=no ec2-user@44.211.119.171 sudo docker run  -d  -p  49153:8080  srronak/javatest-app:$BUILD_TAG"
 				}
