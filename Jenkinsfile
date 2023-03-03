@@ -21,7 +21,15 @@ pipeline {
 			}
 				
 	
-		
+		stage("Docker Hub") {
+			steps {
+			withCredentials([string(credentialsId: 'docker', variable: 'docker_var')]) {
+				sh 'sudo docker login -u abhishek0322 -p ${docker_var}'
+				sh 'sudo docker push srronak/pipeline-java:$BUILD_TAG'
+				}
+			}	
+
+		}
 		stage("QAT Testing") {
 			steps {
 				sh 'sudo docker rm -f $(sudo docker ps -a -q)'
