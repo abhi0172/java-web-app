@@ -55,6 +55,7 @@ pipeline {
 			 sshagent(['ec2user']) {
 			    sh 'ssh -o StrictHostKeyChecking=no ec2-user@3.90.81.92 sudo docker rm -f $(sudo docker ps -a -q)' 
 	                    sh "ssh -o StrictHostKeyChecking=no ec2-user@3.90.81.92 sudo docker run  -d  -p  49153:8080  abhishek0322/pipeline-java:$BUILD_TAG"
+			    sh "kubectl describe svc simple-app-service"
 				}
 			}
 		}
